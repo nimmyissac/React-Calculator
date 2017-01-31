@@ -6,4 +6,4 @@ Installation
 
 npm install --save 
 
-After installation open Calculator/client/dist/index.html
+After installation open React-Calculator/client/dist/index.html
