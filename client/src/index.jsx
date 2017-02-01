@@ -27,53 +27,29 @@ class Container extends React.Component{
   constructor() {
     super();
     this.number1 = "";
-    this.number2 = "";
-    this.operator = "";
-    this.isNumber1 = true;
-    this.result = "";
-    
-  }
+    this.equalToClicked = false;
+   }
   handleClick(character) {
     if(character === "AC") {
-      this.isNumber1 = true;
-      this.operator = "";
       this.number1 = "";
-      this.number2 = "";
-      this.result = "";
       this.props.update(0);
     } else {
-      if(character !== '*' && character !== "/" && character !== "+" && character !=="-" && character !== "=") {
-       if(this.isNumber1) {
-          this.number1 = (character === "CE") ? this.number1.substring(0,this.number1.length-1) : (this.number1 + character); 
-          this.props.update(this.number1);
-        } else {
-          this.number2 = (character === "CE") ? this.number2.substring(0,this.number2.length-1) : (this.number2 + character); 
-          this.props.update(this.number2);
+      if(character !== "=") {
+        this.equalToClicked = false;
+        this.number1 = (character === "CE") ? this.number1.substring(0,this.number1.length-1) : (this.number1 + character); 
+        this.props.update(this.number1);
+      } else {
+        if(!(this.equalToClicked)) {
+          try {
+          this.number1 = eval(this.number1);
+          this.props.update(eval(this.number1));
+          this.equalToClicked = true;
+        } catch(e) {
+          this.props.update("Invalid Expression");
         }
-    } else {
-      if(character === '*' || character === "/" || character === "+" || character ==="-") {
-        this.isNumber1 = false;
-        this.operator = character;
-    }
-      
-      if(character === "=") {
-        if(this.operator === "+") {
-          this.result = Number(this.number1) + Number(this.number2);
-         } else if(this.operator === "-") {
-           this.result = Number(this.number1) - Number(this.number2);
-          } else if(this.operator === "*") {
-           this.result = Number(this.number1) * Number(this.number2);
-           } else {
-           if(this.operator === "/") {
-             this.result = Number(this.number1) / Number(this.number2);
-           }
-       }
-       this.props.update(this.result);
-       this.isNumber1 = true;
-       this.operator = "";
+        }
+        
       }
-
-    }
     }
     
    }
